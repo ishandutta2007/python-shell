@@ -82,7 +82,6 @@ export class NewlineTransformer extends Transform {
         if (this._lastLineData) data = this._lastLineData + data
         const lines = data.split(newline)
         this._lastLineData = lines.pop()
-        //@ts-ignore this works, node ignores the encoding if it's a number
         lines.forEach(this.push.bind(this))
         callback()
     }
