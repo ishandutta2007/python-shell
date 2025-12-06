@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: ''
 labels: 'bug'
 assignees: ''
-
 ---
 
 **Describe the bug**
@@ -23,9 +22,10 @@ A description of what you expected to happen.
 A description of what actually happened.
 
 **Other Information (please complete the following information):**
- - OS: [e.g. Windows10]
- - Python Version [e.g. 3.6]
- - Node Version [e.g. 12]
+
+- OS: [e.g. Windows10]
+- Python Version [e.g. 3.6]
+- Node Version [e.g. 12]
 
 **Additional context**
 Add any other context about the problem here.

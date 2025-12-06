@@ -9,13 +9,15 @@
     "test": "tsc -p ./ && mocha -r ts-node/register",
     "appveyorTest": "tsc -p ./ && nyc mocha test/*.js",
     "compile": "tsc -watch -p ./",
-    "compileOnce": "tsc -p ./"
+    "compileOnce": "tsc -p ./",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/mocha": "^10.0.1",
     "@types/node": "^24.10.1",
     "@types/should": "^13.0.0",
     "mocha": "^11.7.5",
+    "prettier": "^3.6.2",
     "should": "^13.2.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

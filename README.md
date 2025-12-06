@@ -1,17 +1,19 @@
 # [python-shell](https://www.npmjs.com/package/python-shell) [![Build status](https://ci.appveyor.com/api/projects/status/m8e3h53vvxg5wb2q/branch/master?svg=true)](https://ci.appveyor.com/project/Almenon/python-shell/branch/master) [![codecov](https://codecov.io/gh/extrabacon/python-shell/branch/master/graph/badge.svg)](https://codecov.io/gh/extrabacon/python-shell)
 
 <!-- change above url according to repo -->
+
 A simple way to run Python scripts from Node.js with basic but efficient inter-process communication and better error handling.
 
 ## Features
 
-+ Reliably spawn Python scripts in a child process
-+ Built-in text, JSON and binary modes
-+ Custom parsers and formatters
-+ Simple and efficient data transfers through stdin and stdout streams
-+ Extended stack traces when an error is thrown
+- Reliably spawn Python scripts in a child process
+- Built-in text, JSON and binary modes
+- Custom parsers and formatters
+- Simple and efficient data transfers through stdin and stdout streams
+- Extended stack traces when an error is thrown
 
 ## Requirements
+
 First make sure you are able to run `python3` (Mac/Linux) or `python` (Windows) from the terminal. If you are not then you might need to add it to the PATH. If you want to use a version of python not in the PATH you should specify `options.pythonPath`.
 
 ## Installation
@@ -25,9 +27,9 @@ npm install python-shell
 ### Running python code:
 
 ```typescript
-import {PythonShell} from 'python-shell';
+import { PythonShell } from 'python-shell';
 
-PythonShell.runString('x=1+1;print(x)', null).then(messages=>{
+PythonShell.runString('x=1+1;print(x)', null).then((messages) => {
   console.log('finished');
 });
 ```
@@ -36,17 +38,18 @@ If the script exits with a non-zero code, an error will be thrown.
 
 Note the use of imports! If you're not using typescript ಠ_ಠ you can [still get imports to work with this guide](https://github.com/extrabacon/python-shell/issues/148#issuecomment-419120209).
 
-Or you can use require like so: 
+Or you can use require like so:
+
 ```javascript
-let {PythonShell} = require('python-shell')
+let { PythonShell } = require('python-shell');
 ```
 
 ### Running a Python script:
 
 ```typescript
-import {PythonShell} from 'python-shell';
+import { PythonShell } from 'python-shell';
 
-PythonShell.run('my_script.py', null).then(messages=>{
+PythonShell.run('my_script.py', null).then((messages) => {
   console.log('finished');
 });
 ```
@@ -56,16 +59,16 @@ If the script exits with a non-zero code, an error will be thrown.
 ### Running a Python script with arguments and options:
 
 ```typescript
-import {PythonShell} from 'python-shell';
+import { PythonShell } from 'python-shell';
 
 let options = {
   mode: 'text',
   pythonPath: 'path/to/python',
   scriptPath: 'path/to/my/scripts',
-  args: ['value1', 'value2', 'value3']
+  args: ['value1', 'value2', 'value3'],
 };
 
-PythonShell.run('my_script.py', options).then(messages=>{
+PythonShell.run('my_script.py', options).then((messages) => {
   // results is an array consisting of messages collected during execution
   console.log('results: %j', messages);
 });
@@ -74,7 +77,7 @@ PythonShell.run('my_script.py', options).then(messages=>{
 ### Exchanging data between Node and Python:
 
 ```typescript
-import {PythonShell} from 'python-shell';
+import { PythonShell } from 'python-shell';
 let pyshell = new PythonShell('my_script.py');
 
 // sends a message to the Python script via stdin
@@ -86,7 +89,7 @@ pyshell.on('message', function (message) {
 });
 
 // end the input stream and allow the process to exit
-pyshell.end(function (err,code,signal) {
+pyshell.end(function (err, code, signal) {
   if (err) throw err;
   console.log('The exit code was: ' + code);
   console.log('The exit signal was: ' + signal);
@@ -98,9 +101,9 @@ Use `.send(message)` to send a message to the Python script. Attach the `message
 
 Use `options.mode` to quickly setup how data is sent and received between your Node and Python applications.
 
-  * use `text` mode for exchanging lines of text ending with a [newline character](http://hayne.net/MacDev/Notes/unixFAQ.html#endOfLine).
-  * use `json` mode for exchanging JSON fragments
-  * use `binary` mode for anything else (data is sent and received as-is)
+- use `text` mode for exchanging lines of text ending with a [newline character](http://hayne.net/MacDev/Notes/unixFAQ.html#endOfLine).
+- use `json` mode for exchanging JSON fragments
+- use `binary` mode for anything else (data is sent and received as-is)
 
 Stderr always uses text mode.
 
@@ -154,34 +157,35 @@ Error: ZeroDivisionError: integer division or modulo by zero
 
 Creates an instance of `PythonShell` and starts the Python process
 
-* `script`: the path of the script to execute
-* `options`: the execution options, consisting of:
-  * `mode`: Configures how data is exchanged when data flows through stdin and stdout. The possible values are:
-    * `text`: each line of data is emitted as a message (default)
-    * `json`: each line of data is parsed as JSON and emitted as a message
-    * `binary`: data is streamed as-is through `stdout` and `stdin`
-  * `formatter`: each message to send is transformed using this method, then appended with a newline
-  * `parser`: each line of data is parsed with this function and its result is emitted as a message
-  * `stderrParser`: each line of logs is parsed with this function and its result is emitted as a message
-  * `encoding`: the text encoding to apply on the child process streams (default: "utf8")
-  * `pythonPath`: The path where to locate the "python" executable. Default: "python3" ("python" for Windows)
-  * `pythonOptions`: Array of option switches to pass to "python"
-  * `scriptPath`: The default path where to look for scripts. Default is the current working directory.
-  * `args`: Array of arguments to pass to the script
-* `stdoutSplitter`: splits stdout into chunks, defaulting to splitting into newline-seperated lines
-* `stderrSplitter`: splits stderr into chunks, defaulting to splitting into newline-seperated lines
+- `script`: the path of the script to execute
+- `options`: the execution options, consisting of:
+  - `mode`: Configures how data is exchanged when data flows through stdin and stdout. The possible values are:
+    - `text`: each line of data is emitted as a message (default)
+    - `json`: each line of data is parsed as JSON and emitted as a message
+    - `binary`: data is streamed as-is through `stdout` and `stdin`
+  - `formatter`: each message to send is transformed using this method, then appended with a newline
+  - `parser`: each line of data is parsed with this function and its result is emitted as a message
+  - `stderrParser`: each line of logs is parsed with this function and its result is emitted as a message
+  - `encoding`: the text encoding to apply on the child process streams (default: "utf8")
+  - `pythonPath`: The path where to locate the "python" executable. Default: "python3" ("python" for Windows)
+  - `pythonOptions`: Array of option switches to pass to "python"
+  - `scriptPath`: The default path where to look for scripts. Default is the current working directory.
+  - `args`: Array of arguments to pass to the script
+- `stdoutSplitter`: splits stdout into chunks, defaulting to splitting into newline-seperated lines
+- `stderrSplitter`: splits stderr into chunks, defaulting to splitting into newline-seperated lines
 
 Other options are forwarded to `child_process.spawn`.
 
 PythonShell instances have the following properties:
-* `script`: the path of the script to execute
-* `command`: the full command arguments passed to the Python executable
-* `stdin`: the Python stdin stream, used to send data to the child process
-* `stdout`: the Python stdout stream, used for receiving data from the child process
-* `stderr`: the Python stderr stream, used for communicating logs & errors
-* `childProcess`: the process instance created via `child_process.spawn`
-* `terminated`: boolean indicating whether the process has exited
-* `exitCode`: the process exit code, available after the process has ended
+
+- `script`: the path of the script to execute
+- `command`: the full command arguments passed to the Python executable
+- `stdin`: the Python stdin stream, used to send data to the child process
+- `stdout`: the Python stdout stream, used for receiving data from the child process
+- `stderr`: the Python stderr stream, used for communicating logs & errors
+- `childProcess`: the process instance created via `child_process.spawn`
+- `terminated`: boolean indicating whether the process has exited
+- `exitCode`: the process exit code, available after the process has ended
 
 Example:
 
@@ -209,7 +213,7 @@ Example:
 
 ```typescript
 // run a simple script
-PythonShell.run('script.py', null).then(results => {
+PythonShell.run('script.py', null).then((results) => {
   // script finished
 });
 ```
@@ -222,7 +226,7 @@ Example:
 
 ```typescript
 // run some simple code
-PythonShell.runString('x=1;print(x)', null).then(messages=>{
+PythonShell.runString('x=1;print(x)', null).then((messages) => {
   // script finished
 });
 ```
@@ -239,12 +243,12 @@ Promise is rejected if there is a syntax error.
 
 #### `#getVersion(pythonPath?:string)`
 
-Returns the python version as a promise. Optional pythonPath param to get the version 
+Returns the python version as a promise. Optional pythonPath param to get the version
 of a specific python interpreter.
 
 #### `#getVersionSync(pythonPath?:string)`
 
-Returns the python version. Optional pythonPath param to get the version 
+Returns the python version. Optional pythonPath param to get the version
 of a specific python interpreter.
 
 #### `.send(message)`
@@ -255,12 +259,12 @@ Example:
 
 ```typescript
 // send a message in text mode
-let shell = new PythonShell('script.py', { mode: 'text'});
+let shell = new PythonShell('script.py', { mode: 'text' });
 shell.send('hello world!');
 
 // send a message in JSON mode
-let shell = new PythonShell('script.py', { mode: 'json'});
-shell.send({ command: "do_stuff", args: [1, 2, 3] });
+let shell = new PythonShell('script.py', { mode: 'json' });
+shell.send({ command: 'do_stuff', args: [1, 2, 3] });
 ```
 
 #### `.end(callback)`
@@ -279,13 +283,13 @@ Example:
 
 ```typescript
 // receive a message in text mode
-let shell = new PythonShell('script.py', { mode: 'text'});
+let shell = new PythonShell('script.py', { mode: 'text' });
 shell.on('message', function (message) {
   // handle message (a line of text from stdout)
 });
 
 // receive a message in JSON mode
-let shell = new PythonShell('script.py', { mode: 'json'});
+let shell = new PythonShell('script.py', { mode: 'json' });
 shell.on('message', function (message) {
   // handle message (a line of text from stdout, parsed as JSON)
 });
@@ -299,7 +303,7 @@ Example:
 
 ```typescript
 // receive a message in text mode
-let shell = new PythonShell('script.py', { mode: 'text'});
+let shell = new PythonShell('script.py', { mode: 'text' });
 shell.on('stderr', function (stderr) {
   // handle stderr (a line of text from stderr)
 });
@@ -316,9 +320,10 @@ Fires when the process terminates with a non-zero exit code.
 #### event: `error`
 
 Fires when:
-* The process could not be spawned, or
-* The process could not be killed, or
-* Sending a message to the child process failed.
+
+- The process could not be spawned, or
+- The process could not be killed, or
+- Sending a message to the child process failed.
 
 If the process could not be spawned please double-check that python can be launched from the terminal.
 
@@ -332,18 +337,17 @@ print('hello world', file=open(3, "w"))
 ```
 
 ```typescript
-import { PythonShell, NewlineTransformer, Options } from 'python-shell'
+import { PythonShell, NewlineTransformer, Options } from 'python-shell';
 
 const options: Options = {
-    'stdio':
-        ['pipe', 'pipe', 'pipe', 'pipe'] // stdin, stdout, stderr, custom
-}
-const pyshell = new PythonShell('foo.py', options)
+  stdio: ['pipe', 'pipe', 'pipe', 'pipe'], // stdin, stdout, stderr, custom
+};
+const pyshell = new PythonShell('foo.py', options);
 
-const customPipe = pyshell.childProcess.stdio[3]
+const customPipe = pyshell.childProcess.stdio[3];
 customPipe.pipe(new NewlineTransformer()).on('data', (customResult: Buffer) => {
-    console.log(customResult.toString())
-})
+  console.log(customResult.toString());
+});
 ```
 
 ## Used By:

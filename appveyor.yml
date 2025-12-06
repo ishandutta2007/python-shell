@@ -5,18 +5,17 @@ branches:
     - gh-pages
 
 image:
-- Visual Studio 2022
-- Ubuntu2204
+  - Visual Studio 2022
+  - Ubuntu2204
 
 environment:
   matrix:
-
-    - nodejs_version: "18"
+    - nodejs_version: '18'
       PYTHON: "C:\\Python312-x64"
 
-    - nodejs_version: "20"
+    - nodejs_version: '20'
       PYTHON: "C:\\Python312-x64"
-  
+
 install:
   - cmd: powershell Install-Product node $env:nodejs_version
   - sh: nvm install $nodejs_version
@@ -40,7 +39,7 @@ notifications:
     to:
       - almenon214@gmail.com
     on_build_success: false
-    
+
 skip_commits:
   files:
     - '**/*.md'
